@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Mi Amor Eterno ❤️</title>
+  <style>
+    /* -------------------- ESTILOS GENERALES DE LA PÁGINA -------------------- */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffe6f2;
+      font-family: 'Arial', cursive;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .carta-cerrada {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 300px;
+      height: 200px;
+      background: #ff3366;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.5s;
+      box-shadow: 0 0 20px rgba(255,51,102,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .carta-cerrada:hover {
+      transform: translateY(-55%);
+    }
+    .carta-cerrada::before {
+      content: '❤️ Abrir mi corazón ❤️';
+      color: white;
+      font-size: 1.2em;
+      text-align: center;
+      padding: 20px;
+    }
+    .contenido {
+      display: none;
+      max-width: 800px;
+      padding: 30px;
+      animation: aparecer 2s ease-out;
+    }
+    .corazon-latido {
+      animation: latido 1s infinite;
+      font-size: 3em;
+      text-align: center;
+    }
+    @keyframes latido {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .seccion-interactiva {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      cursor: pointer;
+      text-align: center;
+    }
+    .seccion-interactiva p { font-weight: bold; }
+    .seccion-interactiva:hover { transform: translateY(-5px); }
+    .galeria-fotos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .galeria-fotos img {
+      width: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+    .galeria-fotos img:hover { transform: scale(1.1); }
+    .boton-amor {
+      background: #ff3366;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s;
+    }
+    .boton-amor:hover { background: #ff1a53; letter-spacing: 2px; }
+    #contador-amor { font-size: 1.5em; color: #ff3366; margin: 20px; }
+    @keyframes aparecer {
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .flor {
+      position: absolute;
+      font-size: 2em;
+      opacity: 0.3;
+      animation: caer 10s linear infinite;
+    }
+    @keyframes caer {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+    #formMensaje {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    #mensajeNovia {
+      padding: 12px;
+      border: 2px solid #ff3366;
+      border-radius: 20px;
+      font-size: 1em;
+      transition: all 0.3s;
+    }
+    #mensajesContainer {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff0f5;
+      border-radius: 10px;
+      width: 100%;
+    }
+    .mensaje-recibido {
+      padding: 10px;
+      margin: 5px 0;
+      background: white;
+      border-radius: 15px;
+      animation: aparecer 0.5s ease-out;
+      position: relative;
+    }
+    .mensaje-recibido::before { content: '💌'; margin-right: 10px; }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-contenido {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      position: relative;
+      animation: aparecer 0.5s ease-out;
+    }
+    .modal-cerrar {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 2em;
+      cursor: pointer;
+      color: #ff3366;
+    }
+    .modal-imagen {
+      max-width: 80vw;
+      max-height: 80vh;
+      border-radius: 15px;
+    }
+    #mensaje { display: none; white-space: pre-line; text-align: center; }
+    /* -------------------- ICONOS Y CANVAS PARA EFECTOS -------------------- */
+    #lirio-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 3em;
+      cursor: pointer;
+      z-index: 1200;
+    }
+    #fireworksCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1100;
+    }
+    /* -------------------- ESTILOS DEL MINIJUEGO -------------------- */
+    #minigameButton {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 1.1em;
+      padding: 10px 15px;
+      background: #ff99cc;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1200;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    /* Contenedor que cubre la pantalla para el minijuego */
+    #gameContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 230, 240, 0.95);
+      z-index: 1300;
+    }
+    #closeGameButton {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5em;
+      background: #ff3366;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1350;
+    }
+    /* Canvas del minijuego */
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #ffe6f2;
+    }
+  </style>
+  <audio id="musica" loop>
+    <source src="Lee Hi (이하이) - Only (Easy Lyrics).mp3" type="audio/mpeg" />
+  </audio>
+</head>
+<body>
+  <!-- Modal para galerías, razones, etc. y para el mensaje "TE AMO BEBE" -->
+  <div class="modal" id="modal">
+    <div class="modal-contenido">
+      <span class="modal-cerrar" onclick="cerrarModal()">&times;</span>
+      <div id="modal-contenido"></div>
+    </div>
+  </div>
+  
+  <!-- Carta inicial -->
+  <div class="carta-cerrada" onclick="abrirCarta()"></div>
+
+  <!-- Contenido principal (se muestra al abrir la carta) -->
+  <div class="contenido" id="contenido">
+    <h1 class="corazon-latido">❤️ Para mi Cari ❤️</h1>
+    
+    <div class="seccion-interactiva" onclick="mostrarMensaje()">
+      <h2>Click para leer mi cartita</h2>
+      <p id="mensaje">
+        Amorcito,
+
+Estoy aquí, con el corazón en la mano, escribiéndote estas palabras porque no encuentro otra forma de expresarte lo que siento ahora. Sé que las últimas cosas que han pasado no han sido las mejores, y sé que gran parte de la culpa es mía, o incluso toda. Por eso, quiero que esta carta sea un reflejo de mi sinceridad, de mi arrepentimiento y, sobre todo, del amor inmenso que siento por ti.
+
+Sos la persona más importante en mi vida. Eres mi compañera, mi confidente, mi inspiración y mi razón para querer ser mejor cada día. Sin embargo, reconozco que en ocasiones he tomado decisiones equivocadas, decisiones que te han lastimado y que han puesto en riesgo lo más valioso que tengo: tú y nuestra relación. Sentado aquí, con el alma arrepentido y el corazón pesado, quiero pedirte perdón de todo corazón.
+
+No hay excusas para mis errores. Sé que he fallado en momentos en los que debí ser más fuerte, más consciente y más responsable. He cometido errores que no deberían haber ocurrido, y lamento profundamente haberte hecho sentir mal, haberte hecho dudar de mis intenciones o de mi amor por ti. Pero quiero que sepas algo: nunca, jamás, he tenido malas intenciones contigo. Al contrario, muchas cosas que hago, incluso cuando me equivoco, lo hago pensando en nosotros, en nuestro futuro y en la felicidad que quiero construir a tu lado (No hablo de los errores mas fuertes que he tenido, sino de algunas equivocaciones menores que tengo contigo a veces).
+
+A lo largo de este año y del pasado, he tenido momentos en los que no he estado a la altura de lo que mereces. He sido egoísta, he sido imprudente y, en ocasiones, he actuado sin pensar en las consecuencias. Pero hoy, mirando atrás, me doy cuenta de que cada error, cada discusión y cada momento difícil me ha enseñado algo invaluable: que no quiero vivir sin ti. Que no quiero un futuro en el que no estés tú. Que no hay nada en este mundo que valga más que tu amor, tu compañía y tu felicidad.
+
+Cari, te amo con todo mi corazón. Te amo de una manera que no puedo explicar con palabras, pero que siento en lo más profundo de mi ser. Eres mi luz en los días oscuros, mi razón para sonreír cuando todo parece ir mal, y mi motivación para ser mejor cada día. No quiero que por mis decisiones estúpidas esto termine. No quiero que por mis errores perdamos todo lo que hemos construido juntos. Porque lo que tenemos es único, es especial, y es algo que no estoy dispuesto a perder.
+
+Quiero pasar el resto de mi vida contigo. Quiero vivir miles de experiencias a tu lado, desde las más simples hasta las más increíbles. Quiero despertar cada mañana a tu lado, compartir contigo mis sueños y mis miedos, y construir un futuro lleno de amor, respeto y complicidad. Quiero ser esa persona que te brinde seguridad, que te haga sentir amada y valorada en cada momento. Quiero ser el hombre que mereces, alguien en quien puedas confiar plenamente y con quien puedas contar siempre.
+
+Sé que las palabras no bastan para reparar el daño que he causado, pero quiero que sepas que estoy dispuesto a hacer todo lo que esté en mis manos para recuperar tu confianza y tu amor. Estoy dispuesto a trabajar en mí, a aprender de mis errores y a demostrarte con acciones que mi amor por ti es verdadero y que mi compromiso con nuestra relación es inquebrantable.
+
+Amor, lamentablemente no puedo cambiar el pasado, pero sí puedo construir un futuro mejor para nosotros. Un futuro en el que tú seas mi prioridad, en el que cada decisión que tome sea pensando en tu felicidad y en nuestro bienestar. Un futuro en el que podamos reír juntos, soñar juntos y crecer juntos. Porque contigo, todo tiene sentido. Contigo, todo es mejor.
+
+Te pido perdón de todo corazón. Perdón por las veces que te hice llorar, por las veces que te hice dudar de mí y por las veces que no estuve a la altura de lo que mereces. Te prometo que a partir de ahora haré todo lo posible para ser mejor, para amarte como te lo mereces y para demostrarte cada día que eres la persona más importante en mi vida.
+
+Eres mi todo, Cari. Eres mi presente y mi futuro. Eres el amor de mi vida, y no quiero perderte. Por favor, dame la oportunidad de demostrarte que puedo ser el hombre que siempre has soñado. Te amo con todo mi corazón, y estoy dispuesto a luchar por nosotros, por nuestro amor y por todo lo que hemos construido juntos.
+
+Gracias por leerme, por escucharme y por darme la oportunidad de expresar lo que siento. Espero de todo corazón que podamos superar esto y seguir adelante, superando acada obstaculo que se nos interponga.
+
+Con todo mi amor,
+Gon
+      </p>
+    </div>
+
+    <div class="seccion-interactiva">
+      <h2>Momentos bonitos nuestros jiji</h2>
+      <div class="galeria-fotos">
+        <img src="image.png" alt="Nuestra foto" />
+        <img src="image2.png" alt="Nuestra foto" />
+        <img src="image3.png" alt="Nuestra foto" />
+        <img src="image4.png" alt="Nuestra foto" />
+        <img src="image5.png" alt="Nuestra foto" />
+        <img src="image6.png" alt="Nuestra foto" />
+      </div>
+    </div>
+
+    <div class="seccion-interactiva">
+      <h2>Razones por las que te amo:</h2>
+      <button class="boton-amor" onclick="mostrarRazon(1)">#1</button>
+      <button class="boton-amor" onclick="mostrarRazon(2)">#2</button>
+      <button class="boton-amor" onclick="mostrarRazon(3)">#3</button>
+      <button class="boton-amor" onclick="mostrarRazon(4)">#4</button>
+      <p id="razones"></p>
+    </div>
+
+    <div class="seccion-interactiva">
+      <h2>Nuestro Tiempo Juntos</h2>
+      <div id="contador-amor"></div>
+    </div>
+
+    <div class="seccion-interactiva">
+      <h2>Si querés, podés escribirme algo bonito 💌</h2>
+      <form id="formMensaje">
+        <input type="text" id="mensajeNovia" placeholder="Escribe acá amoshito" required />
+        <button type="submit" class="boton-amor">Enviar a mi esposo</button>
+      </form>
+      <div id="mensajesContainer"></div>
+    </div>
+  </div>
+
+  <!-- Icono de lirio para el popup "TE AMO BEBE" -->
+  <div id="lirio-icon" onclick="mostrarTeAmoBebe()">🌸</div>
+  <!-- Canvas para efectos de fuegos artificiales -->
+  <canvas id="fireworksCanvas"></canvas>
+
+  <!-- Botón para abrir el minijuego (ubicado abajo a la izquierda) -->
+  <button id="minigameButton" onclick="mostrarMinijuego()">Jugar Minijuego</button>
+
+  <!-- Contenedor del minijuego (pantalla completa) -->
+  <div id="gameContainer">
+    <button id="closeGameButton" onclick="cerrarMinijuego()">Cerrar Juego</button>
+    <canvas id="gameCanvas"></canvas>
+  </div>
+
+  <script>
+    /* ==================== CÓDIGO DEL CONTENIDO ROMÁNTICO ==================== */
+    let mensajes = JSON.parse(localStorage.getItem('mensajesAmor')) || [];
+    function abrirCarta() {
+      document.querySelector('.carta-cerrada').style.display = 'none';
+      document.getElementById('contenido').style.display = 'block';
+      crearFlores();
+      iniciarContador();
+      iniciarMusica();
+      cargarMensajes();
+    }
+    function iniciarMusica() {
+      const musica = document.getElementById('musica');
+      musica.volume = 0.3;
+      musica.play().catch(() => {
+        const confirmar = confirm('¿Quieres escuchar nuestra cancioncita?');
+        if(confirmar) musica.play();
+      });
+    }
+    document.getElementById('formMensaje').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const mensajeInput = document.getElementById('mensajeNovia');
+      const texto = mensajeInput.value.trim();
+      if(texto) {
+        const nuevoMensaje = { texto: texto, fecha: new Date().toLocaleString() };
+        mensajes.unshift(nuevoMensaje);
+        localStorage.setItem('mensajesAmor', JSON.stringify(mensajes));
+        agregarMensajeDOM(nuevoMensaje);
+        mensajeInput.value = '';
+      }
+    });
+    function cargarMensajes() { mensajes.forEach(mensaje => agregarMensajeDOM(mensaje)); }
+    function agregarMensajeDOM(mensaje) {
+      const contenedor = document.getElementById('mensajesContainer');
+      const div = document.createElement('div');
+      div.className = 'mensaje-recibido';
+      div.innerHTML = `<span>${mensaje.fecha}:</span> ${mensaje.texto}`;
+      contenedor.prepend(div);
+    }
+    function mostrarMensaje() {
+      const mensaje = document.getElementById('mensaje');
+      mensaje.style.display = (mensaje.style.display === 'none' ? 'block' : 'none');
+    }
+    function abrirModal(contenido, esImagen = true) {
+      const modal = document.getElementById('modal');
+      const contenidoModal = document.getElementById('modal-contenido');
+      if(esImagen) {
+        contenidoModal.innerHTML = `<img src="${contenido}" class="modal-imagen">`;
+      } else {
+        contenidoModal.innerHTML = `<p style="font-size:1.5em; text-align:center;">${contenido}</p>`;
+      }
+      modal.style.display = 'flex';
+    }
+    function cerrarModal() { document.getElementById('modal').style.display = 'none'; }
+    document.querySelectorAll('.galeria-fotos img').forEach(img => {
+      img.onclick = () => abrirModal(img.src);
+    });
+    const razones = [
+      "Por tu corazón y tu amor tan puro que siempre me ha amado de la mejor manera ❤️",
+      "Por la linda manera en la que me tratas y siempre estás ahí para mí ✨",
+      "Por hacerme ver todos mis errores y, aunque los cometa, sigues ahí para mí 🌟",
+      "Hay miles de razones más, pero no acabaría nunca con lo mucho que te amo 🌷"
+    ];
+    function mostrarRazon(num) { abrirModal(razones[num-1], false); }
+    function crearFlores() {
+      const flores = ['🌸', '🌺', '🌷', '🌹', '💮'];
+      for(let i = 0; i < 50; i++) {
+        const flor = document.createElement('div');
+        flor.className = 'flor';
+        flor.innerHTML = flores[Math.floor(Math.random()*flores.length)];
+        flor.style.left = Math.random() * 100 + 'vw';
+        flor.style.animationDuration = Math.random() * 5 + 5 + 's';
+        document.body.appendChild(flor);
+      }
+    }
+    function iniciarContador() {
+      const fechaAmor = new Date('2023-12-15').getTime();
+      setInterval(() => {
+        const ahora = new Date().getTime();
+        const diferencia = ahora - fechaAmor;
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('contador-amor').innerHTML = `${dias} días y ${horas} horas del mejor amor ❤️`;
+      }, 1000);
+    }
+    function mostrarTeAmoBebe() {
+      const modal = document.getElementById('modal');
+      const contenidoModal = document.getElementById('modal-contenido');
+      contenidoModal.innerHTML = '<p style="font-size:4em; text-align:center; margin:0;">TE AMO BEBE</p>';
+      modal.style.display = 'flex';
+      startFireworks();
+    }
+    let fireworks = [];
+    let particles = [];
+    let animationFrame;
+    function startFireworks() {
+      const canvas = document.getElementById('fireworksCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      fireworks = [];
+      particles = [];
+      let lastTime = Date.now();
+      function createFirework() {
+        const firework = {
+          x: Math.random() * canvas.width,
+          y: canvas.height,
+          targetY: Math.random() * canvas.height / 2,
+          speed: 5 + Math.random() * 3,
+          color: 'hsl(' + Math.floor(Math.random() * 360) + ', 100%, 50%)',
+          exploded: false
+        };
+        fireworks.push(firework);
+      }
+      function createParticles(x, y, color) {
+        const count = 30 + Math.floor(Math.random() * 20);
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 4 + 1;
+          particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: Math.random() * 2 + 1,
+            color: color,
+            alpha: 1
+          });
+        }
+      }
+      function update() {
+        const now = Date.now();
+        const dt = now - lastTime;
+        lastTime = now;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = fireworks.length - 1; i >= 0; i--) {
+          const f = fireworks[i];
+          f.y -= (f.speed * dt) / 16;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = f.color;
+          ctx.fill();
+          if (f.y <= f.targetY && !f.exploded) {
+            f.exploded = true;
+            createParticles(f.x, f.y, f.color);
+            fireworks.splice(i, 1);
+          }
+        }
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.05;
+          p.alpha -= 0.01;
+          if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+          ctx.restore();
+        }
+        if (Math.random() < 0.05) { createFirework(); }
+        animationFrame = requestAnimationFrame(update);
+      }
+      update();
+      setTimeout(() => {
+        cancelAnimationFrame(animationFrame);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 5000);
+    }
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('fireworksCanvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    /* ==================== CÓDIGO DEL MINIJUEGO (ESTILO PUZZLE CON SALTOS CORTOS Y MÁS ALTOS) ==================== */
+    function mostrarMinijuego() {
+      document.getElementById('gameContainer').style.display = 'block';
+      window.startMinigame();
+    }
+    function cerrarMinijuego() {
+      document.getElementById('gameContainer').style.display = 'none';
+    }
+    (function(){
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      let keys = {};
+      document.addEventListener("keydown", e => { keys[e.code] = true; });
+      document.addEventListener("keyup", e => { keys[e.code] = false; });
+      
+      // Definición del jugador (cuadrado rosa con ojitos)
+      let player = {
+        x: 50,
+        y: canvas.height - 100,
+        width: 40,
+        height: 40,
+        vx: 0,
+        vy: 0,
+        speed: 4,
+        jumpForce: -12,  // Ahora los saltos serán más altos
+        onGround: false
+      };
+      
+      // Variables de física base (más suaves para este estilo puzzle)
+      let gravity = 0.3;
+      
+      let currentLevel = 0;
+      
+      // Niveles estilo PUZZLE: plataformas cercanas y saltos cortos.
+      // Cada función genera el nivel en función del canvas actual.
+      let levels = [
+        function() {
+          return {
+            theme: "Inicio Puzzle",
+            bgColor: "#ffe6f2",
+            platforms: [
+              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+              { x: canvas.width/2 - 50, y: canvas.height - 100, width: 100, height: 20 }
+            ],
+            collectible: { x: canvas.width/2 + 35, y: canvas.height - 100 - 40, size: 30 }
+          };
+        },
+        function() {
+          return {
+            theme: "Escalera Suave",
+            bgColor: "#fff0f5",
+            platforms: [
+              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+              { x: canvas.width/3 - 50, y: canvas.height - 120, width: 100, height: 20 },
+              { x: (2*canvas.width)/3 - 50, y: canvas.height - 140, width: 100, height: 20 }
+            ],
+            collectible: { x: (2*canvas.width)/3 - 15, y: canvas.height - 140 - 40, size: 30 }
+          };
+        },
+        function() {
+          return {
+            theme: "Laberinto de Saltos",
+            bgColor: "#ffe0e6",
+            platforms: [
+              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+              { x: canvas.width/4 - 50, y: canvas.height - 100, width: 100, height: 20 },
+              { x: canvas.width/2 - 50, y: canvas.height - 130, width: 100, height: 20 },
+              { x: (3*canvas.width)/4 - 50, y: canvas.height - 100, width: 100, height: 20 }
+            ],
+            collectible: { x: (3*canvas.width)/4 - 15, y: canvas.height - 100 - 40, size: 30 }
+          };
+        },
+        function() {
+          return {
+            theme: "Saltos en Serie",
+            bgColor: "#ffccdd",
+            platforms: [
+              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+              // Serie de plataformas en línea, separadas 10px
+              { x: canvas.width/4, y: canvas.height - 100, width: 80, height: 20 },
+              { x: canvas.width/4 + 90, y: canvas.height - 100, width: 80, height: 20 },
+              { x: canvas.width/4 + 180, y: canvas.height - 100, width: 80, height: 20 },
+              { x: canvas.width/4 + 270, y: canvas.height - 100, width: 80, height: 20 }
+            ],
+            collectible: { x: canvas.width/4 + 270 + 35, y: canvas.height - 100 - 40, size: 30 }
+          };
+        },
+        function() {
+          return {
+            theme: "Desafío Final",
+            bgColor: "#ffb3c1",
+            platforms: [
+              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+              { x: 100, y: canvas.height - 120, width: 80, height: 20 },
+              { x: 220, y: canvas.height - 140, width: 80, height: 20 },
+              { x: 340, y: canvas.height - 120, width: 80, height: 20 },
+              { x: 460, y: canvas.height - 140, width: 80, height: 20 },
+              { x: 580, y: canvas.height - 120, width: 80, height: 20 }
+            ],
+            collectible: { x: 580 + 35, y: canvas.height - 120 - 40, size: 30 }
+          };
+        }
+      ];
+      
+      let platforms = [];
+      let collectible = {};
+      let gameWon = false;
+      
+      function loadLevel(index) {
+        currentLevel = index;
+        let level = levels[index]();
+        platforms = level.platforms;
+        collectible = level.collectible;
+        // Reiniciar posición del jugador en el inicio de cada nivel
+        player.x = 50;
+        player.y = canvas.height - 100;
+        player.vx = 0;
+        player.vy = 0;
+        // Para este estilo puzzle, ahora los saltos serán más altos
+        gravity = 0.3 + currentLevel * 0.02; 
+        player.jumpForce = -12; 
+        collectible.collected = false;
+      }
+      
+      function update() {
+        if (keys["ArrowLeft"] || keys["KeyA"]) { player.vx = -player.speed; }
+        else if (keys["ArrowRight"] || keys["KeyD"]) { player.vx = player.speed; }
+        else { player.vx = 0; }
+        if ((keys["Space"] || keys["ArrowUp"] || keys["KeyW"]) && player.onGround) {
+          player.vy = player.jumpForce;
+          player.onGround = false;
+        }
+        player.vy += gravity;
+        player.x += player.vx;
+        player.y += player.vy;
+        player.onGround = false;
+        for (let platform of platforms) {
+          if (player.x < platform.x + platform.width &&
+              player.x + player.width > platform.x &&
+              player.y < platform.y + platform.height &&
+              player.y + player.height > platform.y) {
+            if (player.vy >= 0 && player.y + player.height - player.vy <= platform.y) {
+              player.y = platform.y - player.height;
+              player.vy = 0;
+              player.onGround = true;
+            }
+          }
+        }
+        if (player.x < 0) player.x = 0;
+        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+        if (player.y + player.height > canvas.height) {
+          player.y = canvas.height - player.height;
+          player.vy = 0;
+          player.onGround = true;
+        }
+        // Comprobar colisión con el ítem
+        if (!collectible.collected &&
+            player.x < collectible.x + collectible.size &&
+            player.x + player.width > collectible.x &&
+            player.y < collectible.y + collectible.size &&
+            player.y + player.height > collectible.y) {
+          collectible.collected = true;
+          if (currentLevel < levels.length - 1) {
+            setTimeout(() => { loadLevel(currentLevel + 1); }, 500);
+          } else {
+            gameWon = true;
+          }
+        }
+      }
+      
+      function draw() {
+        ctx.fillStyle = currentLevel < levels.length ? levels[currentLevel]().bgColor : "#ffe6f2";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ffccdd";
+        for (let platform of platforms) {
+          ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+        }
+        if (!collectible.collected) {
+          ctx.font = "30px sans-serif";
+          ctx.fillText("🌸", collectible.x, collectible.y + collectible.size);
+        }
+        ctx.fillStyle = "#ff99cc";
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+        // Dibujar ojitos en el jugador
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(player.x + player.width/4, player.y + player.height/3, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(player.x + (3*player.width)/4, player.y + player.height/3, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "black";
+        ctx.fillRect(player.x + player.width/2 - 2, player.y + (2*player.height)/3, 4, 2);
+        ctx.fillStyle = "black";
+        ctx.font = "20px Arial";
+        ctx.fillText("Nivel: " + (currentLevel + 1) + " - " + levels[currentLevel]().theme, 10, 30);
+        if (gameWon) {
+          ctx.fillStyle = "purple";
+          ctx.font = "50px cursive";
+          ctx.fillText("¡Completaste todos los niveles, amor!", canvas.width/2 - 300, canvas.height/2);
+        }
+      }
+      
+      function gameLoop() {
+        update();
+        draw();
+        if (!gameWon) { requestAnimationFrame(gameLoop); }
+      }
+      
+      window.startMinigame = function() {
+        currentLevel = 0;
+        loadLevel(currentLevel);
+        gameWon = false;
+        requestAnimationFrame(gameLoop);
+      }
+      
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        loadLevel(currentLevel);
+      });
+    })();
+  </script>
+</body>
+</html>
