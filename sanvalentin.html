@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>San Valentín - Un Mundo de Amor</title>
+  <style>
+    /* ---------- ANIMACIONES ---------- */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fallDown {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    /* ---------- ESTILOS GENERALES ---------- */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffb3c1, #ffe6f2);
+      font-family: 'Arial', cursive;
+      color: #ff3366;
+      overflow-x: hidden;
+      position: relative;
+      animation: fadeIn 1.5s ease;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 2s ease;
+    }
+    header h1 {
+      font-size: 3em;
+      margin: 0;
+    }
+    section {
+      max-width: 800px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      animation: fadeIn 2s ease;
+    }
+    section h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    /* ---------- CARTA SORPRESA ---------- */
+    .carta-sorpresa {
+      font-size: 1.2em;
+      line-height: 1.6;
+      text-align: justify;
+      margin: 20px;
+    }
+    /* ---------- Botones de Respuesta ---------- */
+    .answer-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .answer-buttons button {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background: #ff3366;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .answer-buttons button:hover {
+      transform: scale(1.1);
+      background: #ff1a53;
+    }
+    /* ---------- VIDEO ---------- */
+    .video-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .video-container video {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    /* ---------- PUZZLE (3x3 = 9 piezas) ---------- */
+    #puzzle-section {
+      text-align: center;
+    }
+    #puzzle-container {
+      width: 450px;
+      height: 450px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 2px;
+      border: 2px solid #ff3366;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .puzzle-piece {
+      width: 100%;
+      height: 100%;
+      background-image: url('WhatsApp Image 2024-11-28 at 9.35.15 PM (1).png'); /* Asegúrate de usar una imagen de 450x450 */
+      background-size: 450px 450px;
+      cursor: pointer;
+      box-sizing: border-box;
+      border: 1px solid #fff;
+    }
+    .selected {
+      outline: 3px solid #ff1a53;
+    }
+    #puzzle-message {
+      text-align: center;
+      font-size: 1.5em;
+      margin-top: 10px;
+      color: #ff1a53;
+    }
+    /* ---------- FALLING EMOJIS (CHOCOLATE, FLORES, PELUCHES) ---------- */
+    .falling-emoji {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 1500;
+      animation: fallDown 5s linear forwards;
+    }
+    @keyframes fallDown {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    /* ---------- BOTÓN DE REGRESO ---------- */
+    #back-button {
+      display: block;
+      width: 220px;
+      margin: 20px auto;
+      padding: 10px;
+      background: #ff3366;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 1.2em;
+      animation: fadeIn 2s ease;
+    }
+     /* ---------- Canvas para Celebración (Fuegos Artificiales) ---------- */
+     #celebrationCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 2000;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>HOLA MYLOVEE</h1>
+    <p>Hoy celebramos nuestro segundo San Valentín juntitos y felices.</p>
+  </header>
+  
+  <!-- CARTA SORPRESA -->
+  <section id="carta-section">
+    <h2>Mi cartita</h2>
+    <div class="carta-sorpresa">
+      <p>Amorcito,</p>
+      <p>
+        Desde el primer instante en que te vi, supe que mi vida cambiaría para siempre. Hoy, al celebrar nuestro segundo San Valentín y prepararnos para cumplir 1 año y 2 meses juntos, quiero que sepas lo profundamente feliz y agradecido que me haces sentir. 
+      </p>
+      <p>
+        Eres la mujer que me enseñó a ver lo bello en cada rincón del mundo, la que me mostró que el amor verdadero es capaz de transformar hasta los días más grises en momentos de luz y esperanza. Contigo, cada risa, cada momento y cada alegría me recuerdan que la felicidad se encuentra en lo simple, en lo sincero, en lo que compartimos.
+      </p>
+      <p>
+        Mi compromiso es amarte sin reservas, cuidarte y celebrarte en cada instante. Eres mi refugio, mi inspiración y la razón por la que cada día despierto con ilusión. Quiero recorrer a tu lado cada paso de este maravilloso viaje y atesorar cada instante, porque tú eres el regalo más precioso que la vida me ha dado.
+      </p>
+      <p>
+        Gracias por ser tú, por enseñarme el verdadero significado del amor y por hacerme sentir que juntos podemos conquistar el mundo. Te amo con cada latido de mi corazón, y prometo que mi amor por ti crecerá y se fortalecerá con el tiempo.
+      </p>
+      <p>Te lo preguntaré una vez mas pero quiero que te imagines que esta sea la primera vez, ok? Bien, ejem... Amor, tengo algo que preguntarte...</p>
+      <p>En esta fecha tan especial donde se está con la persona que mas amas y quieres, yo te tengo a ti, y soy tan feliz de ello, asi que te queria pedir mi amor... Serias mi san valentin el dia de hoy?</p>
+    <!-- Botones de respuesta -->
+      <div class="answer-buttons">
+        <button id="btnSi">SI</button>
+        <button id="btnSiempre">SIEMPRE MYLOVE</button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- VIDEO ESPECIAL -->
+  <section id="video-section">
+    <h2>Un Video Especial para Ti</h2>
+    <div class="video-container">
+      <!-- Reemplaza "video.mp4" por tu archivo o un enlace de YouTube -->
+      <video controls autoplay loop onloadstart="this.volume=0.2">
+        <source src="202502142158.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </div>
+  </section>
+  
+  <!-- PUZZLE INTERACTIVO -->
+  <section id="puzzle-section">
+    <h2>Arma el puzzle para saber quien es esta persona tan linda</h2>
+    <p>Ordena las 9 piezas</p>
+    <div id="puzzle-container"></div>
+    <div id="puzzle-message"></div>
+  </section>
+  
+  <a id="back-button" href="index.html">Regresar a la Página Principal</a>
+  
+  <!-- Canvas para Celebración (Fuegos Artificiales) -->
+  <canvas id="celebrationCanvas"></canvas>
+  
+  <script>
+    /* ---------- Iniciar Audio de Fondo ---------- */
+    window.addEventListener("load", () => {
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.play().catch(e => console.log("Autoplay falló:", e));
+    });
+    
+    /* ---------- Código del Puzzle (3x3 = 9 piezas) ---------- */
+    const puzzleContainer = document.getElementById('puzzle-container');
+    const puzzleMessage = document.getElementById('puzzle-message');
+    const correctOrder = [0,1,2,3,4,5,6,7,8];
+    let pieces = [0,1,2,3,4,5,6,7,8];
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    shuffle(pieces);
+    function renderPuzzle() {
+      puzzleContainer.innerHTML = "";
+      pieces.forEach((pieceIndex, pos) => {
+        const div = document.createElement('div');
+        div.classList.add('puzzle-piece');
+        const x = (pieceIndex % 3) * -150;
+        const y = Math.floor(pieceIndex / 3) * -150;
+        div.style.backgroundPosition = `${x}px ${y}px`;
+        div.dataset.pos = pos;
+        puzzleContainer.appendChild(div);
+      });
+    }
+    renderPuzzle();
+    let firstSelected = null;
+    puzzleContainer.addEventListener('click', function(e) {
+      if (!e.target.classList.contains('puzzle-piece')) return;
+      const clickedIndex = parseInt(e.target.dataset.pos);
+      if (firstSelected === null) {
+        firstSelected = clickedIndex;
+        e.target.classList.add('selected');
+      } else if (firstSelected === clickedIndex) {
+        e.target.classList.remove('selected');
+        firstSelected = null;
+      } else {
+        [pieces[firstSelected], pieces[clickedIndex]] = [pieces[clickedIndex], pieces[firstSelected]];
+        firstSelected = null;
+        renderPuzzle();
+        checkPuzzle();
+      }
+    });
+    function checkPuzzle() {
+      const currentOrder = [];
+      puzzleContainer.childNodes.forEach(child => {
+        currentOrder.push(pieces[parseInt(child.dataset.pos)]);
+      });
+      if (currentOrder.join() === correctOrder.join()) {
+        puzzleMessage.textContent = "¡Puzzle completado, amor!";
+      } else {
+        puzzleMessage.textContent = "";
+      }
+    }
+    /* ---------- Código de los Falling Emojis ---------- */
+    const fallingEmojis = ["🍫", "💐", "🧸"];
+    function createFallingEmoji() {
+      const emoji = document.createElement('div');
+      emoji.classList.add('falling-emoji');
+      emoji.textContent = fallingEmojis[Math.floor(Math.random() * fallingEmojis.length)];
+      emoji.style.left = Math.random() * 100 + "vw";
+      // Duración aleatoria entre 4 y 6 segundos
+      emoji.style.animationDuration = (4 + Math.random() * 2) + "s";
+      document.body.appendChild(emoji);
+      setTimeout(() => { emoji.remove(); }, 6000);
+    }
+    // Generar emojis que caen cada 600ms
+    setInterval(createFallingEmoji, 600);
+
+    /* ---------- Función de Celebración (Fuegos Artificiales y Más) ---------- */
+    function celebrate() {
+      const canvas = document.getElementById("celebrationCanvas");
+      canvas.style.display = "block";
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      let fireworks = [];
+      let particles = [];
+      let lastTime = Date.now();
+      let animationFrame;
+      
+      function createFirework() {
+        const firework = {
+          x: Math.random() * canvas.width,
+          y: canvas.height,
+          targetY: Math.random() * canvas.height / 2,
+          speed: 5 + Math.random() * 3,
+          color: 'hsl(' + Math.floor(Math.random() * 360) + ', 100%, 50%)',
+          exploded: false
+        };
+        fireworks.push(firework);
+      }
+      
+      function createParticles(x, y, color) {
+        const count = 30 + Math.floor(Math.random() * 20);
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 4 + 1;
+          particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: Math.random() * 2 + 1,
+            color: color,
+            alpha: 1
+          });
+        }
+      }
+      
+      function update() {
+        let now = Date.now();
+        let dt = now - lastTime;
+        lastTime = now;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = fireworks.length - 1; i >= 0; i--) {
+          let f = fireworks[i];
+          f.y -= (f.speed * dt) / 16;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = f.color;
+          ctx.fill();
+          if (f.y <= f.targetY && !f.exploded) {
+            f.exploded = true;
+            createParticles(f.x, f.y, f.color);
+            fireworks.splice(i, 1);
+          }
+        }
+        
+        for (let i = particles.length - 1; i >= 0; i--) {
+          let p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.05;
+          p.alpha -= 0.01;
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+          ctx.restore();
+        }
+        
+        if (Math.random() < 0.05) {
+          createFirework();
+        }
+        animationFrame = requestAnimationFrame(update);
+      }
+      
+      update();
+      setTimeout(() => {
+        cancelAnimationFrame(animationFrame);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.style.display = "none";
+      }, 5000);
+    }
+    
+    /* ---------- Asignar eventos a los botones de respuesta ---------- */
+    document.getElementById("btnSi").addEventListener("click", () => {
+      celebrate();
+    });
+    document.getElementById("btnSiempre").addEventListener("click", () => {
+      celebrate();
+    });
+    
+  </script>
+</body>
+</html>

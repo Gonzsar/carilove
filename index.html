@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Para Mi Amor Eterno ❤️</title>
   <style>
-    /* -------------------- ESTILOS GENERALES DE LA PÁGINA -------------------- */
+    /* -------------------- ESTILOS GENERALES -------------------- */
     body {
       margin: 0;
       padding: 0;
@@ -18,6 +18,21 @@
       overflow-x: hidden;
       position: relative;
     }
+    /* Botón de regalo envuelto (ubicado arriba a la izquierda) */
+    #gift-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 3em;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 2100;
+    }
+    #gift-button:hover {
+      transform: scale(1.2) rotate(10deg);
+      box-shadow: 0 0 15px rgba(255,51,102,0.8);
+    }
+    /* (El resto de tus estilos existentes) */
     .carta-cerrada {
       position: absolute;
       top: 50%;
@@ -177,7 +192,7 @@
       border-radius: 15px;
     }
     #mensaje { display: none; white-space: pre-line; text-align: center; }
-    /* -------------------- ICONOS Y CANVAS PARA EFECTOS -------------------- */
+    /* -------------------- CANVAS Y OTROS ELEMENTOS -------------------- */
     #lirio-icon {
       position: fixed;
       bottom: 20px;
@@ -195,7 +210,6 @@
       pointer-events: none;
       z-index: 1100;
     }
-    /* -------------------- ESTILOS DEL MINIJUEGO -------------------- */
     #minigameButton {
       position: fixed;
       bottom: 20px;
@@ -210,7 +224,6 @@
       z-index: 1200;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    /* Contenedor que cubre la pantalla para el minijuego */
     #gameContainer {
       display: none;
       position: fixed;
@@ -234,7 +247,6 @@
       cursor: pointer;
       z-index: 1350;
     }
-    /* Canvas del minijuego */
     #gameCanvas {
       display: block;
       width: 100%;
@@ -247,7 +259,10 @@
   </audio>
 </head>
 <body>
-  <!-- Modal para galerías, razones, etc. y para el mensaje "TE AMO BEBE" -->
+  <!-- Botón de regalo (envuelto) para ir a la página de San Valentín -->
+  <a id="gift-button" href="sanvalentin.html">🎁</a>
+  
+  <!-- (El resto de tu contenido existente) -->
   <div class="modal" id="modal">
     <div class="modal-contenido">
       <span class="modal-cerrar" onclick="cerrarModal()">&times;</span>
@@ -255,10 +270,8 @@
     </div>
   </div>
   
-  <!-- Carta inicial -->
   <div class="carta-cerrada" onclick="abrirCarta()"></div>
 
-  <!-- Contenido principal (se muestra al abrir la carta) -->
   <div class="contenido" id="contenido">
     <h1 class="corazon-latido">❤️ Para mi Cari ❤️</h1>
     
@@ -330,15 +343,9 @@ Gon
     </div>
   </div>
 
-  <!-- Icono de lirio para el popup "TE AMO BEBE" -->
   <div id="lirio-icon" onclick="mostrarTeAmoBebe()">🌸</div>
-  <!-- Canvas para efectos de fuegos artificiales -->
   <canvas id="fireworksCanvas"></canvas>
-
-  <!-- Botón para abrir el minijuego (ubicado abajo a la izquierda) -->
   <button id="minigameButton" onclick="mostrarMinijuego()">Jugar Minijuego</button>
-
-  <!-- Contenedor del minijuego (pantalla completa) -->
   <div id="gameContainer">
     <button id="closeGameButton" onclick="cerrarMinijuego()">Cerrar Juego</button>
     <canvas id="gameCanvas"></canvas>
@@ -514,15 +521,15 @@ Gon
       setTimeout(() => {
         cancelAnimationFrame(animationFrame);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }, 5000);
+      }, 10000);
     }
     window.addEventListener('resize', () => {
       const canvas = document.getElementById('fireworksCanvas');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
-
-    /* ==================== CÓDIGO DEL MINIJUEGO (ESTILO PUZZLE CON SALTOS CORTOS Y MÁS ALTOS) ==================== */
+    
+    /* ==================== CÓDIGO DEL MINIJUEGO (PUZZLE) ==================== */
     function mostrarMinijuego() {
       document.getElementById('gameContainer').style.display = 'block';
       window.startMinigame();
@@ -531,221 +538,231 @@ Gon
       document.getElementById('gameContainer').style.display = 'none';
     }
     (function(){
-      const canvas = document.getElementById("gameCanvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      
-      let keys = {};
-      document.addEventListener("keydown", e => { keys[e.code] = true; });
-      document.addEventListener("keyup", e => { keys[e.code] = false; });
-      
-      // Definición del jugador (cuadrado rosa con ojitos)
-      let player = {
-        x: 50,
-        y: canvas.height - 100,
-        width: 40,
-        height: 40,
-        vx: 0,
-        vy: 0,
-        speed: 4,
-        jumpForce: -12,  // Ahora los saltos serán más altos
-        onGround: false
+      // Aquí se incluiría el código de tu minijuego (puedes dejar el que ya tienes)
+      function mostrarMinijuego() {
+  document.getElementById('gameContainer').style.display = 'block';
+  window.startMinigame();
+}
+function cerrarMinijuego() {
+  document.getElementById('gameContainer').style.display = 'none';
+}
+(function(){
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  let keys = {};
+  document.addEventListener("keydown", e => { keys[e.code] = true; });
+  document.addEventListener("keyup", e => { keys[e.code] = false; });
+  
+  // Definición del jugador (cuadrado rosa con ojitos)
+  let player = {
+    x: 50,
+    y: canvas.height - 100,
+    width: 40,
+    height: 40,
+    vx: 0,
+    vy: 0,
+    speed: 4,
+    jumpForce: -12,  // Ahora los saltos serán más altos
+    onGround: false
+  };
+  
+  // Variables de física base (más suaves para este estilo puzzle)
+  let gravity = 0.3;
+  
+  let currentLevel = 0;
+  
+  // Niveles estilo PUZZLE: plataformas cercanas y saltos cortos.
+  // Cada función genera el nivel en función del canvas actual.
+  let levels = [
+    function() {
+      return {
+        theme: "Inicio Puzzle",
+        bgColor: "#ffe6f2",
+        platforms: [
+          { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+          { x: canvas.width/2 - 50, y: canvas.height - 100, width: 100, height: 20 }
+        ],
+        collectible: { x: canvas.width/2 + 35, y: canvas.height - 100 - 40, size: 30 }
       };
-      
-      // Variables de física base (más suaves para este estilo puzzle)
-      let gravity = 0.3;
-      
-      let currentLevel = 0;
-      
-      // Niveles estilo PUZZLE: plataformas cercanas y saltos cortos.
-      // Cada función genera el nivel en función del canvas actual.
-      let levels = [
-        function() {
-          return {
-            theme: "Inicio Puzzle",
-            bgColor: "#ffe6f2",
-            platforms: [
-              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
-              { x: canvas.width/2 - 50, y: canvas.height - 100, width: 100, height: 20 }
-            ],
-            collectible: { x: canvas.width/2 + 35, y: canvas.height - 100 - 40, size: 30 }
-          };
-        },
-        function() {
-          return {
-            theme: "Escalera Suave",
-            bgColor: "#fff0f5",
-            platforms: [
-              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
-              { x: canvas.width/3 - 50, y: canvas.height - 120, width: 100, height: 20 },
-              { x: (2*canvas.width)/3 - 50, y: canvas.height - 140, width: 100, height: 20 }
-            ],
-            collectible: { x: (2*canvas.width)/3 - 15, y: canvas.height - 140 - 40, size: 30 }
-          };
-        },
-        function() {
-          return {
-            theme: "Laberinto de Saltos",
-            bgColor: "#ffe0e6",
-            platforms: [
-              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
-              { x: canvas.width/4 - 50, y: canvas.height - 100, width: 100, height: 20 },
-              { x: canvas.width/2 - 50, y: canvas.height - 130, width: 100, height: 20 },
-              { x: (3*canvas.width)/4 - 50, y: canvas.height - 100, width: 100, height: 20 }
-            ],
-            collectible: { x: (3*canvas.width)/4 - 15, y: canvas.height - 100 - 40, size: 30 }
-          };
-        },
-        function() {
-          return {
-            theme: "Saltos en Serie",
-            bgColor: "#ffccdd",
-            platforms: [
-              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
-              // Serie de plataformas en línea, separadas 10px
-              { x: canvas.width/4, y: canvas.height - 100, width: 80, height: 20 },
-              { x: canvas.width/4 + 90, y: canvas.height - 100, width: 80, height: 20 },
-              { x: canvas.width/4 + 180, y: canvas.height - 100, width: 80, height: 20 },
-              { x: canvas.width/4 + 270, y: canvas.height - 100, width: 80, height: 20 }
-            ],
-            collectible: { x: canvas.width/4 + 270 + 35, y: canvas.height - 100 - 40, size: 30 }
-          };
-        },
-        function() {
-          return {
-            theme: "Desafío Final",
-            bgColor: "#ffb3c1",
-            platforms: [
-              { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
-              { x: 100, y: canvas.height - 120, width: 80, height: 20 },
-              { x: 220, y: canvas.height - 140, width: 80, height: 20 },
-              { x: 340, y: canvas.height - 120, width: 80, height: 20 },
-              { x: 460, y: canvas.height - 140, width: 80, height: 20 },
-              { x: 580, y: canvas.height - 120, width: 80, height: 20 }
-            ],
-            collectible: { x: 580 + 35, y: canvas.height - 120 - 40, size: 30 }
-          };
-        }
-      ];
-      
-      let platforms = [];
-      let collectible = {};
-      let gameWon = false;
-      
-      function loadLevel(index) {
-        currentLevel = index;
-        let level = levels[index]();
-        platforms = level.platforms;
-        collectible = level.collectible;
-        // Reiniciar posición del jugador en el inicio de cada nivel
-        player.x = 50;
-        player.y = canvas.height - 100;
-        player.vx = 0;
-        player.vy = 0;
-        // Para este estilo puzzle, ahora los saltos serán más altos
-        gravity = 0.3 + currentLevel * 0.02; 
-        player.jumpForce = -12; 
-        collectible.collected = false;
-      }
-      
-      function update() {
-        if (keys["ArrowLeft"] || keys["KeyA"]) { player.vx = -player.speed; }
-        else if (keys["ArrowRight"] || keys["KeyD"]) { player.vx = player.speed; }
-        else { player.vx = 0; }
-        if ((keys["Space"] || keys["ArrowUp"] || keys["KeyW"]) && player.onGround) {
-          player.vy = player.jumpForce;
-          player.onGround = false;
-        }
-        player.vy += gravity;
-        player.x += player.vx;
-        player.y += player.vy;
-        player.onGround = false;
-        for (let platform of platforms) {
-          if (player.x < platform.x + platform.width &&
-              player.x + player.width > platform.x &&
-              player.y < platform.y + platform.height &&
-              player.y + player.height > platform.y) {
-            if (player.vy >= 0 && player.y + player.height - player.vy <= platform.y) {
-              player.y = platform.y - player.height;
-              player.vy = 0;
-              player.onGround = true;
-            }
-          }
-        }
-        if (player.x < 0) player.x = 0;
-        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-        if (player.y + player.height > canvas.height) {
-          player.y = canvas.height - player.height;
+    },
+    function() {
+      return {
+        theme: "Escalera Suave",
+        bgColor: "#fff0f5",
+        platforms: [
+          { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+          { x: canvas.width/3 - 50, y: canvas.height - 120, width: 100, height: 20 },
+          { x: (2*canvas.width)/3 - 50, y: canvas.height - 140, width: 100, height: 20 }
+        ],
+        collectible: { x: (2*canvas.width)/3 - 15, y: canvas.height - 140 - 40, size: 30 }
+      };
+    },
+    function() {
+      return {
+        theme: "Laberinto de Saltos",
+        bgColor: "#ffe0e6",
+        platforms: [
+          { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+          { x: canvas.width/4 - 50, y: canvas.height - 100, width: 100, height: 20 },
+          { x: canvas.width/2 - 50, y: canvas.height - 130, width: 100, height: 20 },
+          { x: (3*canvas.width)/4 - 50, y: canvas.height - 100, width: 100, height: 20 }
+        ],
+        collectible: { x: (3*canvas.width)/4 - 15, y: canvas.height - 100 - 40, size: 30 }
+      };
+    },
+    function() {
+      return {
+        theme: "Saltos en Serie",
+        bgColor: "#ffccdd",
+        platforms: [
+          { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+          // Serie de plataformas en línea, separadas 10px
+          { x: canvas.width/4, y: canvas.height - 100, width: 80, height: 20 },
+          { x: canvas.width/4 + 90, y: canvas.height - 100, width: 80, height: 20 },
+          { x: canvas.width/4 + 180, y: canvas.height - 100, width: 80, height: 20 },
+          { x: canvas.width/4 + 270, y: canvas.height - 100, width: 80, height: 20 }
+        ],
+        collectible: { x: canvas.width/4 + 270 + 35, y: canvas.height - 100 - 40, size: 30 }
+      };
+    },
+    function() {
+      return {
+        theme: "Desafío Final",
+        bgColor: "#ffb3c1",
+        platforms: [
+          { x: 0, y: canvas.height - 20, width: canvas.width, height: 20 },
+          { x: 100, y: canvas.height - 120, width: 80, height: 20 },
+          { x: 220, y: canvas.height - 140, width: 80, height: 20 },
+          { x: 340, y: canvas.height - 120, width: 80, height: 20 },
+          { x: 460, y: canvas.height - 140, width: 80, height: 20 },
+          { x: 580, y: canvas.height - 120, width: 80, height: 20 }
+        ],
+        collectible: { x: 580 + 35, y: canvas.height - 120 - 40, size: 30 }
+      };
+    }
+  ];
+  
+  let platforms = [];
+  let collectible = {};
+  let gameWon = false;
+  
+  function loadLevel(index) {
+    currentLevel = index;
+    let level = levels[index]();
+    platforms = level.platforms;
+    collectible = level.collectible;
+    // Reiniciar posición del jugador en el inicio de cada nivel
+    player.x = 50;
+    player.y = canvas.height - 100;
+    player.vx = 0;
+    player.vy = 0;
+    // Para este estilo puzzle, ahora los saltos serán más altos
+    gravity = 0.3 + currentLevel * 0.02; 
+    player.jumpForce = -12; 
+    collectible.collected = false;
+  }
+  
+  function update() {
+    if (keys["ArrowLeft"] || keys["KeyA"]) { player.vx = -player.speed; }
+    else if (keys["ArrowRight"] || keys["KeyD"]) { player.vx = player.speed; }
+    else { player.vx = 0; }
+    if ((keys["Space"] || keys["ArrowUp"] || keys["KeyW"]) && player.onGround) {
+      player.vy = player.jumpForce;
+      player.onGround = false;
+    }
+    player.vy += gravity;
+    player.x += player.vx;
+    player.y += player.vy;
+    player.onGround = false;
+    for (let platform of platforms) {
+      if (player.x < platform.x + platform.width &&
+          player.x + player.width > platform.x &&
+          player.y < platform.y + platform.height &&
+          player.y + player.height > platform.y) {
+        if (player.vy >= 0 && player.y + player.height - player.vy <= platform.y) {
+          player.y = platform.y - player.height;
           player.vy = 0;
           player.onGround = true;
         }
-        // Comprobar colisión con el ítem
-        if (!collectible.collected &&
-            player.x < collectible.x + collectible.size &&
-            player.x + player.width > collectible.x &&
-            player.y < collectible.y + collectible.size &&
-            player.y + player.height > collectible.y) {
-          collectible.collected = true;
-          if (currentLevel < levels.length - 1) {
-            setTimeout(() => { loadLevel(currentLevel + 1); }, 500);
-          } else {
-            gameWon = true;
-          }
-        }
       }
-      
-      function draw() {
-        ctx.fillStyle = currentLevel < levels.length ? levels[currentLevel]().bgColor : "#ffe6f2";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#ffccdd";
-        for (let platform of platforms) {
-          ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
-        }
-        if (!collectible.collected) {
-          ctx.font = "30px sans-serif";
-          ctx.fillText("🌸", collectible.x, collectible.y + collectible.size);
-        }
-        ctx.fillStyle = "#ff99cc";
-        ctx.fillRect(player.x, player.y, player.width, player.height);
-        // Dibujar ojitos en el jugador
-        ctx.fillStyle = "white";
-        ctx.beginPath();
-        ctx.arc(player.x + player.width/4, player.y + player.height/3, 3, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(player.x + (3*player.width)/4, player.y + player.height/3, 3, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "black";
-        ctx.fillRect(player.x + player.width/2 - 2, player.y + (2*player.height)/3, 4, 2);
-        ctx.fillStyle = "black";
-        ctx.font = "20px Arial";
-        ctx.fillText("Nivel: " + (currentLevel + 1) + " - " + levels[currentLevel]().theme, 10, 30);
-        if (gameWon) {
-          ctx.fillStyle = "purple";
-          ctx.font = "50px cursive";
-          ctx.fillText("¡Completaste todos los niveles, amor!", canvas.width/2 - 300, canvas.height/2);
-        }
+    }
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+    if (player.y + player.height > canvas.height) {
+      player.y = canvas.height - player.height;
+      player.vy = 0;
+      player.onGround = true;
+    }
+    // Comprobar colisión con el ítem
+    if (!collectible.collected &&
+        player.x < collectible.x + collectible.size &&
+        player.x + player.width > collectible.x &&
+        player.y < collectible.y + collectible.size &&
+        player.y + player.height > collectible.y) {
+      collectible.collected = true;
+      if (currentLevel < levels.length - 1) {
+        setTimeout(() => { loadLevel(currentLevel + 1); }, 500);
+      } else {
+        gameWon = true;
       }
-      
-      function gameLoop() {
-        update();
-        draw();
-        if (!gameWon) { requestAnimationFrame(gameLoop); }
-      }
-      
-      window.startMinigame = function() {
-        currentLevel = 0;
-        loadLevel(currentLevel);
-        gameWon = false;
-        requestAnimationFrame(gameLoop);
-      }
-      
-      window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        loadLevel(currentLevel);
-      });
+    }
+  }
+  
+  function draw() {
+    ctx.fillStyle = currentLevel < levels.length ? levels[currentLevel]().bgColor : "#ffe6f2";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffccdd";
+    for (let platform of platforms) {
+      ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+    }
+    if (!collectible.collected) {
+      ctx.font = "30px sans-serif";
+      ctx.fillText("🌸", collectible.x, collectible.y + collectible.size);
+    }
+    ctx.fillStyle = "#ff99cc";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+    // Dibujar ojitos en el jugador
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(player.x + player.width/4, player.y + player.height/3, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(player.x + (3*player.width)/4, player.y + player.height/3, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "black";
+    ctx.fillRect(player.x + player.width/2 - 2, player.y + (2*player.height)/3, 4, 2);
+    ctx.fillStyle = "black";
+    ctx.font = "20px Arial";
+    ctx.fillText("Nivel: " + (currentLevel + 1) + " - " + levels[currentLevel]().theme, 10, 30);
+    if (gameWon) {
+      ctx.fillStyle = "purple";
+      ctx.font = "50px cursive";
+      ctx.fillText("¡Completaste todos los niveles, amor!", canvas.width/2 - 300, canvas.height/2);
+    }
+  }
+  
+  function gameLoop() {
+    update();
+    draw();
+    if (!gameWon) { requestAnimationFrame(gameLoop); }
+  }
+  
+  window.startMinigame = function() {
+    currentLevel = 0;
+    loadLevel(currentLevel);
+    gameWon = false;
+    requestAnimationFrame(gameLoop);
+  }
+  
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    loadLevel(currentLevel);
+  });
+})();
     })();
   </script>
 </body>
