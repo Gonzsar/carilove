@@ -32,6 +32,20 @@
       transform: scale(1.2) rotate(10deg);
       box-shadow: 0 0 15px rgba(255,51,102,0.8);
     }
+    /* Icono de "cartita" en la esquina superior derecha */
+    #cartita-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 3em;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 2100;
+    }
+    #cartita-button:hover {
+      transform: scale(1.2) rotate(10deg);
+      box-shadow: 0 0 15px rgba(255,51,102,0.8);
+    }
     /* (El resto de tus estilos existentes) */
     .carta-cerrada {
       position: absolute;
@@ -259,6 +273,8 @@
   </audio>
 </head>
 <body>
+  <!-- Icono de cartita en la esquina superior derecha -->
+  <a id="cartita-button" href="sorpresa.html">✉️</a>
   <!-- Botón de regalo (envuelto) para ir a la página de San Valentín -->
   <a id="gift-button" href="sanvalentin.html">🎁</a>
   
